@@ -26,9 +26,9 @@ adbyby_start()
 {
 	addscripts
 	if [ ! -f "$PROG_PATH/adbyby" ]; then
-	logger -t "adbyby" "adbyby程序文件不存在，正在解压..."
+	logger -t "adbyby" "Tệp chương trình adbyby không tồn tại, giải nén ..."
 	tar -xzvf "/etc_ro/adbyby.tar.gz" -C "/tmp"
-	logger -t "adbyby" "成功解压至：$PROG_PATH"
+	logger -t "adbyby" "Giải nén thành công：$PROG_PATH"
 	fi
 	#if [ $abp_mode -eq 1 ]; then
 	#/tmp/adbyby/adblock.sh &
@@ -42,7 +42,7 @@ adbyby_start()
 	hosts_ads
 	/sbin/restart_dhcpd
 	add_cron
-	logger -t "adbyby" "Adbyby启动完成。"
+	logger -t "adbyby" "Adbyby Khởi động hoàn tất."
 }
 
 adbyby_close()
@@ -56,13 +56,13 @@ adbyby_close()
 	fi
 	kill -9 $(ps | grep admem.sh | grep -v grep | awk '{print $1}') >/dev/null 2>&1 
 	/sbin/restart_dhcpd
-	logger -t "adbyby" "Adbyby已关闭。"
+	logger -t "adbyby" "Adbyby đã đóng."
 
 }
 
 add_rules()
 {
-	logger -t "adbyby" "正在检查规则是否需要更新!"
+	logger -t "adbyby" "Kiểm tra xem quy tắc có cần được cập nhật không!"
 	rm -f /tmp/adbyby/data/*.bak
 
 	touch /tmp/local-md5.json && md5sum /tmp/adbyby/data/lazy.txt /tmp/adbyby/data/video.txt > /tmp/local-md5.json
@@ -75,7 +75,7 @@ add_rules()
 
 	if [ "$lazy_online"x != "$lazy_local"x -o "$video_online"x != "$video_local"x ]; then
 	echo "MD5 not match! Need update!"
-	logger -t "adbyby" "发现更新的规则,下载规则！"
+	logger -t "adbyby" "Found updated rules, download rules！"
 	touch /tmp/lazy.txt && curl -k -s -o /tmp/lazy.txt --connect-timeout 5 --retry 3 https://adbyby.coding.net/p/xwhyc-rules/d/xwhyc-rules/git/raw/master/lazy.txt
 	touch /tmp/video.txt && curl -k -s -o /tmp/video.txt --connect-timeout 5 --retry 3 https://adbyby.coding.net/p/xwhyc-rules/d/xwhyc-rules/git/raw/master/video.txt
 	touch /tmp/local-md5.json && md5sum /tmp/lazy.txt /tmp/video.txt > /tmp/local-md5.json
@@ -89,11 +89,11 @@ add_rules()
 	fi
 	else
 	echo "MD5 match! No need to update!"
-	logger -t "adbyby" "没有更新的规则,本次无需更新！"
+	logger -t "adbyby" "No update rules, no need to update this time!"
 	fi
 
 	rm -f /tmp/lazy.txt /tmp/video.txt /tmp/local-md5.json /tmp/md5.json
-	logger -t "adbyby" "Adbyby规则更新完成"
+	logger -t "adbyby" "Adbyby rule update complete"
 	nvram set adbyby_ltime=`head -1 /tmp/adbyby/data/lazy.txt | awk -F' ' '{print $3,$4}'`
 	nvram set adbyby_vtime=`head -1 /tmp/adbyby/data/video.txt | awk -F' ' '{print $3,$4}'`
 	#nvram set adbyby_rules=`grep -v '^!' /tmp/adbyby/data/rules.txt | wc -l`
@@ -104,7 +104,7 @@ add_rules()
 	grep -v '^!' /etc/storage/adbyby_adblack.sh | grep -v "^$" > $PROG_PATH/adblack.conf
 	grep -v '^!' /etc/storage/adbyby_adesc.sh | grep -v "^$" > $PROG_PATH/adesc.conf
 	grep -v '^!' /etc/storage/adbyby_adhost.sh | grep -v "^$" > $PROG_PATH/adhost.conf
-	logger -t "adbyby" "正在处理规则..."
+	logger -t "adbyby" "Processing rules...."
 	rm -f $DATA_PATH/user.bin
 	rm -f $DATA_PATH/user.txt
 	rulesnum=`nvram get adbybyrules_staticnum_x`
@@ -115,7 +115,7 @@ add_rules()
 		rules_address=`nvram get adbybyrules_x$j`
 		rules_road=`nvram get adbybyrules_road_x$j`
 		if [ $rules_road -ne 0 ]; then
-			logger -t "adbyby" "正在下载和合并第三方规则"
+			logger -t "adbyby" "Downloading and merging third-party rules"
 			curl -k -s -o /tmp/adbyby/user2.txt --connect-timeout 5 --retry 3 $rules_address
 			grep -v '^!' /tmp/adbyby/user2.txt | grep -E '^(@@\||\||[[:alnum:]])' | sort -u | grep -v "^$" >> $DATA_PATH/user3adblocks.txt
 			rm -f /tmp/adbyby/user2.txt
@@ -136,7 +136,7 @@ add_cron()
 	cat >> /etc/storage/cron/crontabs/$http_username << EOF
 $adbyby_update_min $adbyby_update_hour * * * /bin/sh /usr/bin/adbyby.sh G >/dev/null 2>&1
 EOF
-	logger -t "adbyby" "设置每天$adbyby_update_hour时$adbyby_update_min分，自动更新规则！"
+	logger -t "adbyby" "Set daily$adbyby_update_hour时$adbyby_update_min分，Automatic update rules！"
 	fi
 if [ $adbyby_update -eq 1 ]; then
 
@@ -144,7 +144,7 @@ if [ $adbyby_update -eq 1 ]; then
 	cat >> /etc/storage/cron/crontabs/$http_username << EOF
 */$adbyby_update_min */$adbyby_update_hour * * * /bin/sh /usr/bin/adbyby.sh G >/dev/null 2>&1
 EOF
-	logger -t "adbyby" "设置每隔$adbyby_update_hour时$adbyby_update_min分，自动更新规则！"
+	logger -t "adbyby" "Set every$adbyby_update_hour时$adbyby_update_min分，Automatic update rules！"
 	fi
 	if [ $adbyby_update -eq 2 ]; then
 	sed -i '/adbyby/d' /etc/storage/cron/crontabs/$http_username
@@ -173,18 +173,18 @@ ip_rule()
 		case $mode in
 		0)
 			$ipt_n -A ADBYBY -s $ip -j RETURN
-			logger -t "adbyby" "忽略$ip走AD过滤。"
+			logger -t "adbyby" "Ignore $ip and go to AD filter。"
 			;;
 		1)
 			$ipt_n -A ADBYBY -s $ip -p tcp -j REDIRECT --to-ports 8118
 			$ipt_n -A ADBYBY -s $ip -j RETURN
-			logger -t "adbyby" "设置$ip走全局过滤。"
+			logger -t "adbyby" "Set $ip to go global filtering."
 			;;
 		2)
 			ipset -N adbyby_wan hash:ip
 			$ipt_n -A ADBYBY -m set --match-set adbyby_wan dst -s $ip -p tcp -j REDIRECT --to-ports 8118
 			awk '!/^$/&&!/^#/{printf("ipset=/%s/'"adbyby_wan"'\n",$0)}' $PROG_PATH/adhost.conf > $WAN_FILE
-			logger -t "adbyby" "设置$ip走Plus+过滤。"
+			logger -t "adbyby" "Set $ip to go to Plus+ filtering."
 			;;
 		esac
 	done
@@ -269,13 +269,13 @@ add_rule()
 	$ipt_n -A ADBYBY -d 224.0.0.0/4 -j RETURN
 	$ipt_n -A ADBYBY -d 240.0.0.0/4 -j RETURN
 	ip_rule
-	logger -t "adbyby" "添加8118透明代理端口。"
+	logger -t "adbyby" "Add 8118 transparent proxy port."
 	$ipt_n -I PREROUTING -p tcp --dport 80 -j ADBYBY
 	iptables-save | grep -E "ADBYBY|^\*|^COMMIT" | sed -e "s/^-A \(OUTPUT\|PREROUTING\)/-I \1 1/" > /tmp/adbyby.save
 	if [ -f "/tmp/adbyby.save" ]; then
-	logger -t "adbyby" "保存adbyby防火墙规则成功！"
+	logger -t "adbyby" "Successfully saved adbyby firewall rules!"
 	else
-	logger -t "adbyby" "保存adbyby防火墙规则失败！可能会造成重启后过滤广告失效，需要手动关闭再打开ADBYBY！"
+	logger -t "adbyby" "Failed to save adbyby firewall rules! It may cause the filter ads to be invalid after restarting, you need to manually close and open ADBYBY!"
 	fi
 }
 
@@ -292,7 +292,7 @@ del_rule()
 	ipset -X adbyby_wan 2>/dev/null
 	ipset -F blockip 2>/dev/null
 	ipset -X blockip 2>/dev/null
-	logger -t "adbyby" "已关闭全部8118透明代理端口。"
+	logger -t "adbyby" "All 8118 transparent proxy ports have been closed."
 }
 
 reload_rule()
@@ -309,9 +309,9 @@ adbyby_uprules()
 	adbyby_close
 	addscripts
 	if [ ! -f "$PROG_PATH/adbyby" ]; then
-	logger -t "adbyby" "adbyby程序文件不存在，正在解压..."
+	logger -t "adbyby" "The adbyby program file does not exist, decompressing..."
 	tar -xzvf "/etc_ro/adbyby.tar.gz" -C "/tmp"
-	logger -t "adbyby" "成功解压至：$PROG_PATH"
+	logger -t "adbyby" "Successfully unzipped to：$PROG_PATH"
 	fi
 	#if [ $abp_mode -eq 1 ]; then
 	#/tmp/adbyby/adblock.sh &
@@ -338,9 +338,9 @@ nvram set anti_ad_count=0
 if [ "$anti_ad" = "1" ]; then
 curl -k -s -o /etc/storage/dnsmasq-adbyby.d/anti-ad-for-dnsmasq.conf --connect-timeout 5 --retry 3 $anti_ad_link
 if [ ! -f "/etc/storage/dnsmasq-adbyby.d/anti-ad-for-dnsmasq.conf" ]; then
-	logger -t "adbyby" "anti_AD下载失败！"
+	logger -t "adbyby" "anti_AD download failed！"
 else
-	logger -t "adbyby" "anti_AD下载成功,处理中..."
+	logger -t "adbyby" "anti_AD download succeeded, processing..."
 nvram set anti_ad_count=`grep -v '^#' /etc/storage/dnsmasq-adbyby.d/anti-ad-for-dnsmasq.conf | wc -l`
 fi
 fi
@@ -354,17 +354,17 @@ rm -rf $PROG_PATH/hosts
 grep -v '^#' /etc/storage/adbyby_host.sh | grep -v "^$" > $PROG_PATH/hostlist.txt
 for ip in `cat $PROG_PATH/hostlist.txt`
 do
-logger -t "adbyby" "正在下载: $ip"
+logger -t "adbyby" "downloading: $ip"
 curl -k -s -o /tmp/host.txt --connect-timeout 5 --retry 3 $ip
 if [ ! -f "/tmp/host.txt" ]; then
-	logger -t "adbyby" "$ip 下载失败！"
+	logger -t "adbyby" "$ip download failed！"
 else
-	logger -t "adbyby" "hosts下载成功,处理中..."
+	logger -t "adbyby" "Hosts downloaded successfully, processing..."
 grep -v '^#' /tmp/host.txt | grep -v "^$" >> $PROG_PATH/hosts
 fi
 done
 rm -f /tmp/host.txt
-logger -t "adbyby" "正在对hosts文件进行去重处理."
+logger -t "adbyby" "The hosts file is being deduplicated."
 sort $PROG_PATH/hosts | uniq
 nvram set adbyby_hostsad=`grep -v '^!' $PROG_PATH/hosts | wc -l`
 sed -i '/hosts/d' /etc/storage/dnsmasq/dnsmasq.conf
@@ -381,21 +381,21 @@ addscripts()
 	adbyby_rules="/etc/storage/adbyby_rules.sh"
 	if [ ! -f "$adbyby_rules" ] || [ ! -s "$adbyby_rules" ] ; then
 	cat > "$adbyby_rules" <<-\EEE
-!  ------------------------------ ADByby 自定义过滤语法简表---------------------------------
-!  --------------  规则基于abp规则，并进行了字符替换部分的扩展-----------------------------
-!  ABP规则请参考https://adblockplus.org/zh_CN/filters，下面为大致摘要
-!  "!" 为行注释符，注释行以该符号起始作为一行注释语义，用于规则描述
-!  "*" 为字符通配符，能够匹配0长度或任意长度的字符串，该通配符不能与正则语法混用。
-!  "^" 为分隔符，可以是除了字母、数字或者 _ - . % 之外的任何字符。
-!  "|" 为管线符号，来表示地址的最前端或最末端
-!  "||" 为子域通配符，方便匹配主域名下的所有子域。
-!  "~" 为排除标识符，通配符能过滤大多数广告，但同时存在误杀, 可以通过排除标识符修正误杀链接。
-!  "##" 为元素选择器标识符，后面跟需要隐藏元素的CSS样式例如 #ad_id  .ad_class
-!!  元素隐藏暂不支持全局规则和排除规则
-!! 字符替换扩展
-!  文本替换选择器标识符，后面跟需要替换的文本数据，格式：$s@模式字符串@替换后的文本@
-!  支持通配符*和？
-!  -------------------------------------------------------------------------------------------
+! ------------------------------ ADByby Custom Filtering Syntax Brief Table ------------ ---------------------
+! -------------- The rules are based on the abp rules, and the character replacement part has been expanded ---------------------- -------
+! ABP rules please refer to https://adblockplus.org/zh_CN/filters, the following is a summary
+! "!" is a line comment character, the comment line starts with this symbol as a line comment semantics, used for rule description
+! "*" is a character wildcard that can match a string of 0 or any length. This wildcard cannot be mixed with regular syntax.
+! "^" is a separator, which can be any character except letters, numbers, or _-. %.
+! "|" is the pipeline symbol to indicate the front or the end of the address
+! "||" is a subdomain wildcard, which is convenient to match all subdomains under the main domain name.
+! "~" To exclude identifiers, wildcards can filter most ads, but at the same time there is a manslaughter, you can modify the manslaughter link by excluding the identifier.
+! "##" is the element selector identifier, followed by the CSS style of the element that needs to be hidden eg #ad_id .ad_class
+!! Element hiding temporarily does not support global rules and exclusion rules
+!! Character replacement extension
+! Text replacement selector identifier, followed by the text data to be replaced, format: $s@pattern string@replaced text@
+! Support wildcards * and?
+! ------------------------------------------------- ------------------------------------------
 
 EEE
 	chmod 755 "$adbyby_rules"
