@@ -28,12 +28,12 @@ romfs:
 	echo "ASUSTeK" > $(ROMFS_DIR)/www/httpd_check.htm
 	cd $(ROMFS_DIR)/www && ln -sf /opt/share/www/custom custom
 	cp dict/EN.header $(ROMFS_DIR)/www
-ifeq ($(CONFIG_FIRMWARE_INCLUDE_LANG_BR),y)
-	echo "LANG_BR=Brazil" >> $(ROMFS_DIR)/www/EN.header
-	cp dict/BR.dict $(ROMFS_DIR)/www
-	sed $(BOARD_PATTERN) -i $(ROMFS_DIR)/www/BR.dict
-	sed $(COPYR_PATTERN) -i $(ROMFS_DIR)/www/BR.dict
-	sed $(DWURL_PATTERN) -i $(ROMFS_DIR)/www/BR.dict
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_LANG_VI),y)
+	echo "LANG_VI=Tiếng Việt" >> $(ROMFS_DIR)/www/EN.header
+	cp dict/VI.dict $(ROMFS_DIR)/www
+	sed $(BOARD_PATTERN) -i $(ROMFS_DIR)/www/VI.dict
+	sed $(COPYR_PATTERN) -i $(ROMFS_DIR)/www/VI.dict
+	sed $(DWURL_PATTERN) -i $(ROMFS_DIR)/www/VI.dict
 endif
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_LANG_CZ),y)
 	echo "LANG_CZ=Česky" >> $(ROMFS_DIR)/www/EN.header
