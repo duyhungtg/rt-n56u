@@ -340,11 +340,11 @@ function showMDHCPList(){
 	else{
 	    for(var i = 0; i < m_dhcp.length; i++){
 		if(m_dhcp[i][3] == 0)
-		adbybyiproad="直连模式";
+		adbybyiproad="Chế độ trực tiếp";
 		else if(m_dhcp[i][3] == 1){
-		adbybyiproad="全局模式";
+		adbybyiproad="Chế độ toàn cầu";
 		}else if(m_dhcp[i][3] == 2){
-		adbybyiproad="Plus+模式";
+		adbybyiproad="Chế độ Plus+";
 		}
 		code +='<tr id="row' + i + '">';
 		code +='<td width="25%">&nbsp;' + m_dhcp[i][0] + '</td>';
@@ -463,20 +463,20 @@ function changeBgColorrl(obj, num){
                         </div>
 								<div class="row-fluid">
 									<div id="tabMenu" class="submenuBlock"></div>
-									<div class="alert alert-info" style="margin: 10px;">广告屏蔽大师 Plus + 可以全面过滤各种横幅、弹窗、视频广告，同时阻止跟踪、隐私窃取及各种恶意网站<br />
-									<div>Plus + 版本可以和 Hosts 结合方式运行，过滤广告不损失带宽</div>
-									<div>anti-AD项目地址:<a href="https://github.com/privacy-protection-tools/anti-AD">https://github.com/privacy-protection-tools/anti-AD</a></div>
-									<div>静态规则：【<% nvram_get_x("", "adbyby_ltime"); %>】 | 视频规则：【<% nvram_get_x("", "adbyby_vtime"); %>】</div>
-									<div>anti-AD规则：【<% nvram_get_x("", "anti_ad_count"); %>】条 | Hosts AD：【<% nvram_get_x("", "adbyby_hostsad"); %>】条</div>
-									<div>第三方规则：【<% nvram_get_x("", "adbyby_user"); %>】条</div>
+									<div class="alert alert-info" style="margin: 10px;">Ad Blocker Plus + có thể lọc toàn diện tất cả các loại biểu ngữ, cửa sổ bật lên, quảng cáo video, đồng thời ngăn chặn theo dõi, đánh cắp quyền riêng tư và các trang web độc hại khác nhau<br />
+									<div>Plus + Phiên bản có thể chạy kết hợp với Host, lọc quảng cáo mà không mất băng thông</div>
+									<div>Địa chỉ dự án anti-AD :<a href="https://github.com/privacy-protection-tools/anti-AD">https://github.com/privacy-protection-tools/anti-AD</a></div>
+									<div>Static rules：【<% nvram_get_x("", "adbyby_ltime"); %>】 | Quy tắc video：【<% nvram_get_x("", "adbyby_vtime"); %>】</div>
+									<div>Qui tắc chống quảng cáo：【<% nvram_get_x("", "anti_ad_count"); %>】địa chỉ | Hosts AD：【<% nvram_get_x("", "adbyby_hostsad"); %>】địa chỉ</div>
+									<div>Quy tắc của bên thứ ba：【<% nvram_get_x("", "adbyby_user"); %>】địa chỉ</div>
 									<div> </div>
 									</div>
 									<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
-									<tr> <th>运行状态:</th>
+									<tr> <th>Tình trạng hoạt động:</th>
                                             <td id="adbyby_status" colspan="3"></td>
                                         </tr>
 										<tr >
-											<th width="50%">启用 Adbyby 功能 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
+											<th width="50%">Kích hoạt tính năng Adbyby &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</th>
 											<td>
 													<div class="main_itoggle">
 													<div id="adbyby_enable_on_of">
@@ -491,22 +491,22 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<th width="50%">
-											<a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 0, 1);">过滤方案选择:</a></th>
+											<a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 0, 1);">Lựa chọn sơ đồ lọc:</a></th>
 											<td>
 												<select name="adbyby_set" class="input">
-													<option value="0" <% nvram_match_x("","adbyby_set", "0","selected"); %>>全局模式（推荐），全部IP走adbyby过滤</option>
-													<option value="1" <% nvram_match_x("","adbyby_set", "1","selected"); %>>Plus + 模式(只过滤列表内域名结合ABP名单)</option>
-													<option value="2" <% nvram_match_x("","adbyby_set", "2","selected"); %>>内网IP列表控制模式</option>
+													<option value="0" <% nvram_match_x("","adbyby_set", "0","selected"); %>>Chế độ toàn cầu（khuyên dùng），Lọc tất cả IP</option>
+													<option value="1" <% nvram_match_x("","adbyby_set", "1","selected"); %>>Plus + Chế độ (chỉ tên miền trong danh sách được kết hợp với danh sách ABP)</option>
+													<option value="2" <% nvram_match_x("","adbyby_set", "2","selected"); %>>Chế độ kiểm soát danh sách IP Intranet</option>
 												</select>
 											</td>
 										</tr>
 										<tr id="adbyby_update_tr">
-											<th>规则自动更新:</th>
+											<th>Cập nhật tự động:</th>
 											<td>
 												<select name="adbyby_update" class="input" style="width: 60px;">
-													<option value="0" <% nvram_match_x("","adbyby_update", "0","selected"); %>>每天</option>
-													<option value="1" <% nvram_match_x("","adbyby_update", "1","selected"); %>>每隔</option>
-													<option value="2" <% nvram_match_x("","adbyby_update", "2","selected"); %>>关闭</option>
+													<option value="0" <% nvram_match_x("","adbyby_update", "0","selected"); %>>Hằng ngày</option>
+													<option value="1" <% nvram_match_x("","adbyby_update", "1","selected"); %>>Mỗi</option>
+													<option value="2" <% nvram_match_x("","adbyby_update", "2","selected"); %>>Tắt</option>
 												</select>
 												 <select name="adbyby_update_hour" id="adbyby_update_hour" class="input" style="width: 50px">
 
@@ -518,7 +518,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<th width="50%">
-											拦截 Apple iOS 的OTA更新:</th>
+											Chặn cập nhật OTA từ Apple iOS:</th>
 											<td>
 													<div class="main_itoggle">
 													<div id="block_ios_on_of">
@@ -533,7 +533,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<th width="50%">
-											拦截 抖音 APP 和网站:</th>
+											Chặn các ứng dụng và trang web Douyin:</th>
 											<td>
 													<div class="main_itoggle">
 													<div id="block_douyin_on_of">
@@ -548,7 +548,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<th width="50%">
-											<a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 2, 1);">加载anti-AD项目规则:</a></th>
+											<a class="help_tooltip" href="javascript: void(0)" onmouseover="openTooltip(this, 2, 1);">Tải quy tắc dự án chặn QC:</a></th>
 											<td>
 													<div class="main_itoggle">
 													<div id="anti_ad_on_of">
@@ -562,13 +562,13 @@ function changeBgColorrl(obj, num){
 											</td>
 										</tr>
 										<tr>
-                                            <th width="50%">加载anti-AD下载地址:</th>
+                                            <th width="50%">Tải địa chỉ tải xuống chặn QC:</th>
                                             <td>
                                                 <input type="text"  class="input" size="60" name="anti_ad_link" value="<% nvram_get_x("","anti_ad_link"); %>" />
                                             </td>
                                         </tr>
 										<tr>
-											<th width="50%">加载hosts规则</th>
+											<th width="50%">Tải quy tắc Host</th>
 											<td>
 													<div class="main_itoggle">
 													<div id="hosts_ad_on_of">
@@ -583,7 +583,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<td colspan="3">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script15')"><span>hosts规则下载列表(一行一个地址):</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script15')"><span>Danh sách tải xuống Host (một địa chỉ trên mỗi dòng):</span></a>
 												<div id="script15">
 													<textarea rows="8" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_host.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_host.sh",""); %></textarea>
 												</div>
@@ -592,10 +592,10 @@ function changeBgColorrl(obj, num){
 										</table>
 										<table width="100%" align="center" cellpadding="4" cellspacing="0" class="table">
                                         <tr>
-                                            <th colspan="5" id="GWStatic" style="background-color: #E3E3E3;">自定义IP过滤设置</th>
+                                            <th colspan="5" id="GWStatic" style="background-color: #E3E3E3;">Cài đặt lọc IP tùy chỉnh</th>
                                         </tr>
                                         <tr>
-                                            <th colspan="2" width="50%">启用内网过滤控制</th>
+                                            <th colspan="2" width="50%">Cho phép kiểm soát lọc mạng nội bộ</th>
                                             <td colspan="2" width="50%">
                                                 <div class="main_itoggle">
                                                     <div id="adbyby_ip_x_on_of">
@@ -622,7 +622,7 @@ function changeBgColorrl(obj, num){
                                                 <#LANHostConfig_ManualName_itemname#> <a href="javascript:sortbyName();" style="outline:0;"><i class="icon-circle-arrow-down"></i></a>
                                             </th>
 											<th width="20%">
-                                                过滤模式 <a href="javascript:sortbyName();" style="outline:0;"><i class="icon-circle-arrow-down"></i></a>
+                                                Chế độ lọc <a href="javascript:sortbyName();" style="outline:0;"><i class="icon-circle-arrow-down"></i></a>
                                             </th>
                                             <th width="5%">
                                                 <center><a href="javascript:sortbyId();" style="outline:0;"><i class="icon-th-list"></i></a></center>
@@ -644,9 +644,9 @@ function changeBgColorrl(obj, num){
                                             </td>
 											 <td width="20%">
                                           	<select name="adbybyip_ip_road_x_0" class="input" style="width: 110px">
-													<option value="0" <% nvram_match_x("","adbybyip_ip_road_x_0", "0","selected"); %>>直连模式</option>
-													<option value="1" <% nvram_match_x("","adbybyip_ip_road_x_0", "1","selected"); %>>全局模式</option>
-													<option value="2" <% nvram_match_x("","adbybyip_ip_road_x_0", "2","selected"); %>>plus+模式</option>
+													<option value="0" <% nvram_match_x("","adbybyip_ip_road_x_0", "0","selected"); %>>Chế độ trực tiếp</option>
+													<option value="1" <% nvram_match_x("","adbybyip_ip_road_x_0", "1","selected"); %>>Chế độ toàn cầu</option>
+													<option value="2" <% nvram_match_x("","adbybyip_ip_road_x_0", "2","selected"); %>>chế độ plus+</option>
 												</select>
                                             </td>
                                             <td width="5%">
@@ -661,10 +661,10 @@ function changeBgColorrl(obj, num){
                                     </table>
 									 <table width="100%" align="center" cellpadding="5" cellspacing="0" class="table">
                                         <tr>
-                                            <th colspan="5" id="GWStatic" style="background-color: #E3E3E3;">第三方过滤规则</th>
+                                            <th colspan="5" id="GWStatic" style="background-color: #E3E3E3;">Quy tắc lọc của bên thứ ba</th>
                                         </tr>
                                         <tr>
-                                            <th width="50%">启用第三方过滤规则</th>
+                                            <th width="50%">Cho phép quy tắc lọc của bên thứ ba</th>
                                             <td width="50%">
                                                 <div class="main_itoggle">
                                                     <div id="adbyby_rules_x_on_of">
@@ -683,10 +683,10 @@ function changeBgColorrl(obj, num){
                                         <tr id="row_rules_caption" style="display:none">
 										 
                                             <th width="85%">
-                                                规则地址 <i class="icon-circle-arrow-down"></i>
+                                                Địa chỉ thường xuyên <i class="icon-circle-arrow-down"></i>
                                             </th>
 											<th width="10%">
-                                                状态 <i class="icon-circle-arrow-down"></i>
+                                                trạng thái <i class="icon-circle-arrow-down"></i>
                                             </th>
                                             <th width="5%">
                                                 <center><i class="icon-th-list"></i></center>
@@ -698,8 +698,8 @@ function changeBgColorrl(obj, num){
                                             </td>
 											 <td width="10%">
                                           	<select name="adbybyrules_road_x_0" class="input" style="width: 65px">
-													<option value="0" <% nvram_match_x("","adbybyrules_road_x_0", "0","selected"); %>>禁用</option>
-													<option value="1" <% nvram_match_x("","adbybyrules_road_x_0", "1","selected"); %>>启用</option>
+													<option value="0" <% nvram_match_x("","adbybyrules_road_x_0", "0","selected"); %>>Vô hiệu hóa</option>
+													<option value="1" <% nvram_match_x("","adbybyrules_road_x_0", "1","selected"); %>>Kích hoạt</option>
 												</select>
                                             </td>
                                             <td width="5%">
@@ -715,7 +715,7 @@ function changeBgColorrl(obj, num){
 									<table class="table">
 										<tr>
 											<td colspan="3" >
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script9')"><span>Plus+ 模式过滤的域名:</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script9')"><span>Plus+ Mẫu tên miền được lọc:</span></a>
 												<div id="script9">
 													<textarea rows="8" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_adhost.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_adhost.sh",""); %></textarea>
 												</div>
@@ -723,7 +723,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<td colspan="3" style="border-top: 0 none;">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script10')"><span>域名白名单:</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script10')"><span>Danh sách trắng tên miền:</span></a>
 												<div id="script10" style="display:none;">
 													<textarea rows="24" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_adesc.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_adesc.sh",""); %></textarea>
 												</div>
@@ -731,7 +731,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<td colspan="3" style="border-top: 0 none;">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script11')"><span>IP黑名单:</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script11')"><span>Danh sách đen IP:</span></a>
 												<div id="script11" style="display:none;">
 													<textarea rows="24" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_blockip.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_blockip.sh",""); %></textarea>
 												</div>
@@ -739,7 +739,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<td colspan="3" style="border-top: 0 none;">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script12')"><span>域名黑名单:</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script12')"><span>Danh sách đen tên miền:</span></a>
 												<div id="script12" style="display:none;">
 													<textarea rows="24" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_adblack.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_adblack.sh",""); %></textarea>
 												</div>
@@ -747,7 +747,7 @@ function changeBgColorrl(obj, num){
 										</tr>
 										<tr>
 											<td colspan="3" style="border-top: 0 none;">
-												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script13')"><span>用户自定义规则:</span></a>
+												<i class="icon-hand-right"></i> <a href="javascript:spoiler_toggle('script13')"><span>Quy tắc do người dùng xác định:</span></a>
 												<div id="script13" style="display:none;">
 													<textarea rows="8" wrap="off" spellcheck="false" maxlength="314571" class="span12" name="scripts.adbyby_rules.sh" style="font-family:'Courier New'; font-size:12px;"><% nvram_dump("scripts.adbyby_rules.sh",""); %></textarea>
 												</div>
